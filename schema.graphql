@@ -1,0 +1,31 @@
+# This file was generated based on ".graphqlconfig". Do not edit manually.
+
+schema {
+    query: Query
+}
+
+type FeedItem {
+    description: String!
+    duration: String!
+    image: String
+    linkUrl: String!
+    pubDate: String!
+    subtitle: String!
+    summary: String!
+    text: String!
+    title: String!
+}
+
+type Podcast {
+    artist: String!
+    episodesCount: Int!
+    feedUrl: String!
+    genres: [String!]!
+    podcastName: String!
+    thumbnail: String!
+}
+
+type Query {
+    feed(feedUrl: String!): [FeedItem!]!
+    search(term: String!): [Podcast!]!
+}
