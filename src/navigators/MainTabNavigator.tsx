@@ -5,6 +5,8 @@ import {createStackNavigator} from '@react-navigation/stack';
 import ListenNowScreen from '../components/listenNow/ListenNowScreen';
 import SearchScreen from '../components/search/SearchScreen';
 import LibraryScreen from '../components/library/LIbraryScreen';
+import PodcastDetailsScreen from '../components/podcastDetails/PodcastDetailsScreen';
+import {theme} from '../constants/theme';
 
 const ListenNowStack = createStackNavigator();
 
@@ -26,8 +28,16 @@ const SearchStack = createStackNavigator();
 
 const SearchStackNavigator = () => {
   return (
-    <SearchStack.Navigator>
+    <SearchStack.Navigator
+      screenOptions={{
+        headerTintColor: theme.color.blueLight,
+      }}>
       <SearchStack.Screen name="Search" component={SearchScreen} />
+      <SearchStack.Screen
+        name="PodcastDetails"
+        component={PodcastDetailsScreen}
+        options={{headerTitle: ''}}
+      />
     </SearchStack.Navigator>
   );
 };
