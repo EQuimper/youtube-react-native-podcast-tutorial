@@ -1,6 +1,7 @@
 import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createStackNavigator} from '@react-navigation/stack';
+import FeatherIcon from 'react-native-vector-icons/Feather';
 
 import ListenNowScreen from '../components/listenNow/ListenNowScreen';
 import SearchScreen from '../components/search/SearchScreen';
@@ -31,6 +32,9 @@ const SearchStackNavigator = () => {
     <SearchStack.Navigator
       screenOptions={{
         headerTintColor: theme.color.blueLight,
+        headerTitleStyle: {
+          color: theme.color.black,
+        },
       }}>
       <SearchStack.Screen name="Search" component={SearchScreen} />
       <SearchStack.Screen
@@ -52,20 +56,48 @@ const LibraryStackNavigator = () => {
   );
 };
 
+const ICON_SIZE = 24;
+
 const MainTab = createBottomTabNavigator();
 
 const MainTabNavigator = () => {
   return (
-    <MainTab.Navigator>
+    <MainTab.Navigator
+      tabBarOptions={{
+        activeTintColor: theme.color.blueLight,
+      }}>
       <MainTab.Screen
         name="ListenNow"
         options={{
           title: 'Listen Now',
+          tabBarIcon: (props) => (
+            <FeatherIcon
+              color={props.color}
+              size={ICON_SIZE}
+              name="headphones"
+            />
+          ),
         }}
         component={ListenNowStackNavigator}
       />
-      <MainTab.Screen name="Library" component={LibraryStackNavigator} />
-      <MainTab.Screen name="Search" component={SearchStackNavigator} />
+      <MainTab.Screen
+        name="Library"
+        component={LibraryStackNavigator}
+        options={{
+          tabBarIcon: (props) => (
+            <FeatherIcon color={props.color} size={ICON_SIZE} name="inbox" />
+          ),
+        }}
+      />
+      <MainTab.Screen
+        name="Search"
+        component={SearchStackNavigator}
+        options={{
+          tabBarIcon: (props) => (
+            <FeatherIcon color={props.color} size={ICON_SIZE} name="search" />
+          ),
+        }}
+      />
     </MainTab.Navigator>
   );
 };
