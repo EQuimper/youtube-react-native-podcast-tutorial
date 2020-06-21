@@ -1,16 +1,26 @@
 import React from 'react';
 import {Box, Text} from 'react-native-design-utility';
 import {RouteProp, useRoute} from '@react-navigation/native';
-import {FlatList, Image, StyleSheet} from 'react-native';
+import {ActivityIndicator, FlatList, Image, StyleSheet} from 'react-native';
 import FeatherIcon from 'react-native-vector-icons/Feather';
+import {useQuery} from '@apollo/react-hooks';
 
 import {SearchStackRouteParamsList} from '../../navigators/types';
 import {theme} from '../../constants/theme';
+import {FeedQuery, FeedQueryVariables} from '../../types/graphql';
+import feedQuery from '../../graphql/query/feedQuery';
+import {getWeekDay, humanDuration} from '../../lib/dateTimeHelpers';
 
 type NavigationParams = RouteProp<SearchStackRouteParamsList, 'PodcastDetails'>;
 
 const PodcastDetailsScreen = () => {
-  const {data} = useRoute<NavigationParams>().params ?? {};
+  const {data: podcastData} = useRoute<NavigationParams>().params ?? {};
+
+  const {data, loading} = useQuery<FeedQuery, FeedQueryVariables>(feedQuery, {
+    variables: {
+      feedUrl: podcastData.feedUrl,
+    },
+  });
 
   return (
     <Box f={1} bg="white">
@@ -18,17 +28,20 @@ const PodcastDetailsScreen = () => {
         ListHeaderComponent={
           <>
             <Box dir="row" px="sm" mt="sm" mb="md">
-              {data.thumbnail && (
+              {podcastData.thumbnail && (
                 <Box mr={10}>
-                  <Image source={{uri: data.thumbnail}} style={s.thumbnail} />
+                  <Image
+                    source={{uri: podcastData.thumbnail}}
+                    style={s.thumbnail}
+                  />
                 </Box>
               )}
               <Box f={1}>
                 <Text size="lg" bold>
-                  {data.podcastName}
+                  {podcastData.podcastName}
                 </Text>
                 <Text size="xs" color="grey">
-                  {data.artist}
+                  {podcastData.artist}
                 </Text>
                 <Text color="blueLight" size="xs">
                   Subscribed
@@ -43,9 +56,9 @@ const PodcastDetailsScreen = () => {
                   color={theme.color.blueLight}
                 />
               </Box>
-              <Box>
+              <Box f={1}>
                 <Text bold>Play</Text>
-                <Text size="sm">#400 - The Last Episode</Text>
+                <Text size="sm">{data?.feed[0].title}</Text>
               </Box>
             </Box>
 
@@ -54,44 +67,35 @@ const PodcastDetailsScreen = () => {
                 Episodes
               </Text>
             </Box>
+
+            {loading && (
+              <Box h={200} center>
+                <ActivityIndicator size="large" color={theme.color.blueLight} />
+              </Box>
+            )}
           </>
         }
-        data={[{id: '1'}, {id: '2'}]}
+        data={data?.feed}
         ItemSeparatorComponent={() => (
           <Box w="100%" px="sm" my="sm">
             <Box style={{height: StyleSheet.hairlineWidth}} bg="greyLighter" />
           </Box>
         )}
-        renderItem={() => (
+        renderItem={({item}) => (
           <Box px="sm">
             <Text size="xs" color="grey">
-              FRIDAY
+              {getWeekDay(new Date(item.pubDate)).toUpperCase()}
             </Text>
-            <Text bold>#400 - The Title</Text>
+            <Text bold>{item.title}</Text>
             <Text size="sm" color="grey" numberOfLines={2}>
-              "But I must explain to you how all this mistaken idea of
-              denouncing pleasure and praising pain was born and I will give you
-              a complete account of the system, and expound the actual teachings
-              of the great explorer of the truth, the master-builder of human
-              happiness. No one rejects, dislikes, or avoids pleasure itself,
-              because it is pleasure, but because those who do not know how to
-              pursue pleasure rationally encounter consequences that are
-              extremely painful. Nor again is there anyone who loves or pursues
-              or desires to obtain pain of itself, because it is pain, but
-              because occasionally circumstances occur in which toil and pain
-              can procure him some great pleasure. To take a trivial example,
-              which of us ever undertakes laborious physical exercise, except to
-              obtain some advantage from it? But who has any right to find fault
-              with a man who chooses to enjoy a pleasure that has no annoying
-              consequences, or one who avoids a pain that produces no resultant
-              pleasure?" Section 1.10.33 of "de Finibus Bon
+              {item.description}
             </Text>
             <Text size="sm" color="grey">
-              3hrs. 13min
+              {humanDuration(item.duration)}
             </Text>
           </Box>
         )}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item) => item.linkUrl}
       />
     </Box>
   );
