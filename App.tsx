@@ -8,7 +8,6 @@ import TrackPlayer from 'react-native-track-player';
 import {theme} from './src/constants/theme';
 import MainStackNavigator from './src/navigators/MainStackNavigator';
 import {client} from './src/graphql/client';
-import trackPlayerServices from './src/services/trackPlayerServices';
 import {ActivityIndicator} from 'react-native';
 import {PlayerContextProvider} from './src/contexts/PlayerContext';
 
@@ -18,7 +17,18 @@ const App = () => {
   React.useEffect(() => {
     TrackPlayer.setupPlayer().then(() => {
       console.log('player is setup');
-      TrackPlayer.registerPlaybackService(() => trackPlayerServices);
+
+      TrackPlayer.updateOptions({
+        capabilities: [
+          TrackPlayer.CAPABILITY_PLAY,
+          TrackPlayer.CAPABILITY_PAUSE,
+          TrackPlayer.CAPABILITY_STOP,
+          TrackPlayer.CAPABILITY_JUMP_FORWARD,
+          TrackPlayer.CAPABILITY_JUMP_BACKWARD,
+        ],
+        jumpInterval: 30,
+      });
+
       setIsReady(true);
     });
   }, []);
