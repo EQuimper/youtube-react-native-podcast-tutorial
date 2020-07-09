@@ -1,6 +1,6 @@
 import React from 'react';
 import {Box, Text} from 'react-native-design-utility';
-import {RouteProp, useRoute} from '@react-navigation/native';
+import {RouteProp, useRoute, useNavigation} from '@react-navigation/native';
 import {
   ActivityIndicator,
   FlatList,
@@ -22,6 +22,7 @@ type NavigationParams = RouteProp<SearchStackRouteParamsList, 'PodcastDetails'>;
 
 const PodcastDetailsScreen = () => {
   const playerContext = usePlayerContext();
+  const navigation = useNavigation();
   const {data: podcastData} = useRoute<NavigationParams>().params ?? {};
 
   const {data, loading} = useQuery<FeedQuery, FeedQueryVariables>(feedQuery, {
@@ -111,7 +112,15 @@ const PodcastDetailsScreen = () => {
             <Text size="xs" color="grey">
               {getWeekDay(new Date(item.pubDate)).toUpperCase()}
             </Text>
-            <Text bold>{item.title}</Text>
+            <TouchableOpacity
+              onPress={() =>
+                navigation.navigate('EpisodeDetails', {
+                  episode: item,
+                  podcast: podcastData,
+                })
+              }>
+              <Text bold>{item.title}</Text>
+            </TouchableOpacity>
             <Text size="sm" color="grey" numberOfLines={2}>
               {item.description}
             </Text>

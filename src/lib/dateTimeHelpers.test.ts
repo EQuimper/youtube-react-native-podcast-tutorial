@@ -21,6 +21,8 @@ describe('dateTimeHelpers', () => {
       expect(humanDuration('03:13:00')).toBe('3hrs. 13min');
       expect(humanDuration('11:54:00')).toBe('11hrs. 54min');
       expect(humanDuration('10:01:00')).toBe('10hrs. 01min');
+      expect(humanDuration('00:55:00')).toBe('55min');
+      expect(humanDuration('16:18')).toBe('16min');
     });
   });
 });
