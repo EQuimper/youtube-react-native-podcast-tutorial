@@ -122,7 +122,7 @@ const PodcastDetailsScreen = () => {
               <Text bold>{item.title}</Text>
             </TouchableOpacity>
             <Text size="sm" color="grey" numberOfLines={2}>
-              {item.description}
+              {item.summary}
             </Text>
             <Text size="sm" color="grey">
               {humanDuration(item.duration)}

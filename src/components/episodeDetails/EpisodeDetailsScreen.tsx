@@ -8,6 +8,7 @@ import {FeedQuery_feed, SearchQuery_search} from '../../types/graphql';
 import {theme} from '../../constants/theme';
 import {humanDuration} from '../../lib/dateTimeHelpers';
 import {usePlayerContext} from '../../contexts/PlayerContext';
+import HtmlReader from '../HtmlReader';
 
 const EpisodeDetailsScreen = () => {
   const playerContext = usePlayerContext();
@@ -75,7 +76,7 @@ const EpisodeDetailsScreen = () => {
             <Text size="xl" weight="bold">
               Episode Notes
             </Text>
-            <Text>{routeParams.episode.description}</Text>
+            <HtmlReader html={routeParams.episode.description} />
           </Box>
         </Box>
       </ScrollView>

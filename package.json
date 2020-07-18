@@ -24,11 +24,13 @@
     "react-native-design-utility": "^1.0.7",
     "react-native-gesture-handler": "^1.6.1",
     "react-native-reanimated": "^1.9.0",
+    "react-native-render-html": "^4.2.1",
     "react-native-safe-area-context": "^3.0.2",
     "react-native-screens": "^2.8.0",
     "react-native-swift": "^1.2.3",
     "react-native-track-player": "^1.2.3",
-    "react-native-vector-icons": "^6.6.0"
+    "react-native-vector-icons": "^6.6.0",
+    "react-native-webview": "^10.3.2"
   },
   "devDependencies": {
     "@babel/core": "^7.6.2",
