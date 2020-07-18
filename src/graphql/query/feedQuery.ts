@@ -7,6 +7,7 @@ const feedQuery = gql`
       duration
       image
       linkUrl
+      summary
       pubDate
       text
       title

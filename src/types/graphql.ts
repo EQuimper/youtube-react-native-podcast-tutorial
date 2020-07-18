@@ -13,6 +13,7 @@ export interface FeedQuery_feed {
   duration: string;
   image: string | null;
   linkUrl: string;
+  summary: string;
   pubDate: string;
   text: string;
   title: string;
