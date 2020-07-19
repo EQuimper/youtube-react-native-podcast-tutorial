@@ -235,6 +235,8 @@ PODS:
   - React-jsinspector (0.62.2)
   - react-native-safe-area-context (3.0.2):
     - React
+  - react-native-sqlite-storage (5.0.0):
+    - React
   - react-native-track-player (1.2.3):
     - React
   - react-native-webview (10.3.2):
@@ -349,6 +351,7 @@ DEPENDENCIES:
   - React-jsiexecutor (from `../node_modules/react-native/ReactCommon/jsiexecutor`)
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
+  - react-native-sqlite-storage (from `../node_modules/react-native-sqlite-storage`)
   - react-native-track-player (from `../node_modules/react-native-track-player`)
   - react-native-webview (from `../node_modules/react-native-webview`)
   - React-RCTActionSheet (from `../node_modules/react-native/Libraries/ActionSheetIOS`)
@@ -415,6 +418,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/jsinspector"
   react-native-safe-area-context:
     :path: "../node_modules/react-native-safe-area-context"
+  react-native-sqlite-storage:
+    :path: "../node_modules/react-native-sqlite-storage"
   react-native-track-player:
     :path: "../node_modules/react-native-track-player"
   react-native-webview:
@@ -479,6 +484,7 @@ SPEC CHECKSUMS:
   React-jsiexecutor: 1540d1c01bb493ae3124ed83351b1b6a155db7da
   React-jsinspector: 512e560d0e985d0e8c479a54a4e5c147a9c83493
   react-native-safe-area-context: b11a34881faac509cad5578726c98161ad4d275c
+  react-native-sqlite-storage: 418ef4afc5e6df6ce3574c4617e5f0b65cffde55
   react-native-track-player: 28b96dd6404dea3eee80e67b74507679235a8dfb
   react-native-webview: 679b6f400176e2ea8a785acf7ae16cf282e7d1eb
   React-RCTActionSheet: f41ea8a811aac770e0cc6e0ad6b270c644ea8b7c
