@@ -17,11 +17,14 @@ import {FeedQuery, FeedQueryVariables} from '../../types/graphql';
 import feedQuery from '../../graphql/query/feedQuery';
 import {getWeekDay, humanDuration} from '../../lib/dateTimeHelpers';
 import {usePlayerContext} from '../../contexts/PlayerContext';
+import {DBContext} from '../../contexts/DBContext';
+import {PodcastModel} from '../../models/PodcastModel';
 
 type NavigationParams = RouteProp<SearchStackRouteParamsList, 'PodcastDetails'>;
 
 const PodcastDetailsScreen = () => {
   const playerContext = usePlayerContext();
+  const dbContext = React.useContext(DBContext);
   const navigation = useNavigation();
   const {data: podcastData} = useRoute<NavigationParams>().params ?? {};
 
@@ -52,9 +55,22 @@ const PodcastDetailsScreen = () => {
                 <Text size="xs" color="grey">
                   {podcastData.artist}
                 </Text>
-                <Text color="blueLight" size="xs">
-                  Subscribed
-                </Text>
+                <TouchableOpacity
+                  onPress={() =>
+                    dbContext.subToPodcast(
+                      new PodcastModel({
+                        episodesCount: podcastData.episodesCount,
+                        thumbnail: podcastData.thumbnail,
+                        name: podcastData.podcastName,
+                        artist: podcastData.artist,
+                        feedUrl: podcastData.feedUrl,
+                      }),
+                    )
+                  }>
+                  <Text color="blueLight" size="xs">
+                    Subscribed
+                  </Text>
+                </TouchableOpacity>
               </Box>
             </Box>
             <Box px="sm" mb="md" dir="row" align="center">
