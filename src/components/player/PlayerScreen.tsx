@@ -7,6 +7,7 @@ import {useNavigation} from '@react-navigation/native';
 
 import {usePlayerContext} from '../../contexts/PlayerContext';
 import {theme} from '../../constants/theme';
+import ProgressSlider from './ProgressSlider';
 
 const {width} = Dimensions.get('window');
 
@@ -45,6 +46,10 @@ const PlayerScreen = () => {
           <Text color="grey" size="sm">
             {track.artist}
           </Text>
+        </Box>
+
+        <Box px="md" mb="sm">
+          <ProgressSlider />
         </Box>
 
         <Box dir="row" align="center" justify="center">
