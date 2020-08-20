@@ -41,7 +41,7 @@ class ProgressSlider extends ProgressComponent {
           minimumValue={0}
           maximumValue={this.state.duration}
           value={this.state.position}
-          onValueChange={(value) => {
+          onSlidingComplete={(value) => {
             this.context.goTo(value);
           }}
           minimumTrackTintColor={theme.color.blueLight}
