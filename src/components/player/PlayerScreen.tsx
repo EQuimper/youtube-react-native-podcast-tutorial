@@ -8,6 +8,7 @@ import {useNavigation} from '@react-navigation/native';
 import {usePlayerContext} from '../../contexts/PlayerContext';
 import {theme} from '../../constants/theme';
 import ProgressSlider from './ProgressSlider';
+import {makeHitSlop} from '../../constants/metrics';
 
 const {width} = Dimensions.get('window');
 
@@ -24,16 +25,17 @@ const PlayerScreen = () => {
   return (
     <SafeAreaView style={s.safeArea}>
       <Box f={1} bg="white" pt="md">
-        <Box px="md" mb="md">
+        <Box px="md" mb="md" dir="row" align="center" justify="between">
           <TouchableOpacity
             onPress={navigation.goBack}
-            hitSlop={{
-              bottom: 20,
-              top: 20,
-              left: 20,
-              right: 20,
-            }}>
+            hitSlop={makeHitSlop(20)}>
             <Icon name="chevron-down" size={30} />
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            onPress={() => navigation.navigate('Queue')}
+            hitSlop={makeHitSlop(20)}>
+            <Icon name="list" size={30} />
           </TouchableOpacity>
         </Box>
         <Box center mb="md">
