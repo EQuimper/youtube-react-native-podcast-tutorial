@@ -52,6 +52,8 @@ export const PlayerContextProvider: React.FC = (props) => {
   }, []);
 
   const play = async (track?: Track) => {
+    // we want to make sure we stop the current one to play the next one
+    await pause();
     if (!track) {
       if (currentTrack) {
         await RNTrackPlayer.play();
@@ -59,13 +61,21 @@ export const PlayerContextProvider: React.FC = (props) => {
       return;
     }
 
-    if (currentTrack && track.id !== currentTrack.id) {
-      await RNTrackPlayer.reset();
+    if (currentTrack && track.id === currentTrack.id) {
+      await RNTrackPlayer.play();
+      return;
     }
 
-    await RNTrackPlayer.add([track]);
-    setCurrentTrack(track);
-    await RNTrackPlayer.play();
+    try {
+      // check if the track exist in the queue
+      await RNTrackPlayer.getTrack(track.id);
+    } catch (error) {
+      await RNTrackPlayer.add([track]);
+    } finally {
+      setCurrentTrack(track);
+      await RNTrackPlayer.skip(track.id);
+      await RNTrackPlayer.play();
+    }
   };
 
   const pause = async () => {
