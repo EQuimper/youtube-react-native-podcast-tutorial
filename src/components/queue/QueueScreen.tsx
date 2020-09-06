@@ -7,9 +7,11 @@ import {useNavigation, useFocusEffect} from '@react-navigation/native';
 import {theme} from '../../constants/theme';
 import {makeHitSlop} from '../../constants/metrics';
 import RNTrackPlayer from 'react-native-track-player';
+import {usePlayerContext} from '../../contexts/PlayerContext';
 
 const QueueScreen = () => {
   const [queue, setQueue] = React.useState<RNTrackPlayer.Track[]>([]);
+  const playerContext = usePlayerContext();
 
   const navigation = useNavigation();
 
@@ -45,28 +47,35 @@ const QueueScreen = () => {
 
       <ScrollView>
         {queue.map((track) => (
-          <Box h={90} px="md" dir="row" key={track.id}>
-            <Box h={70} w={70} radius={10} bg="blue" mr={10}>
-              {track.artwork && (
-                <Image
-                  source={{uri: track.artwork}}
-                  style={{
-                    height: 70,
-                    width: 70,
-                    borderRadius: 10,
-                  }}
-                />
-              )}
+          <TouchableOpacity
+            key={track.id}
+            onPress={async () => {
+              await playerContext.play(track);
+              navigation.goBack();
+            }}>
+            <Box h={90} px="md" dir="row">
+              <Box h={70} w={70} radius={10} bg="blue" mr={10}>
+                {track.artwork && (
+                  <Image
+                    source={{uri: track.artwork}}
+                    style={{
+                      height: 70,
+                      width: 70,
+                      borderRadius: 10,
+                    }}
+                  />
+                )}
+              </Box>
+              <Box f={1}>
+                <Text bold numberOfLines={1}>
+                  {track.title}
+                </Text>
+                <Text size="sm" color="gray">
+                  {track.artist}
+                </Text>
+              </Box>
             </Box>
-            <Box f={1}>
-              <Text bold numberOfLines={1}>
-                {track.title}
-              </Text>
-              <Text size="sm" color="gray">
-                {track.artist}
-              </Text>
-            </Box>
-          </Box>
+          </TouchableOpacity>
         ))}
       </ScrollView>
     </SafeAreaView>
